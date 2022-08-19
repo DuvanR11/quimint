@@ -1,0 +1,32 @@
+{%extends 'index.html'%}
+
+{%block header%}
+     {%include 'components/header.html'%}
+{%endblock%}
+
+{%block contenido%}
+  <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>repuesto</th>
+                    <th>repuesto</th>
+                    <th>estado</th>
+                    <th>cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{equipo.repuesto}}</td>
+                    <td>{{equipo.repuesto}}</td>
+                    <td>{{equipo.estado}}</td>
+                    <td>{{equipo.cantidad}}</td>
+                </tr>
+            </tbody>
+        </table>
+  </div>
+{%endblock%}
+
+{%block footer%}
+     {% include 'components/footer.html'%}
+{%endblock%}
