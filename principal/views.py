@@ -1,4 +1,5 @@
-from ast import Try
+
+from http.client import HTTPResponse
 from django.http import HttpResponseRedirect
 from urllib.request import Request
 from django.shortcuts import render, redirect
@@ -40,10 +41,32 @@ def agregarEquipos(request):
 # '''
 def mostrarEquipo(request, id):
     equipo = Equipos.objects.get(id=id)
-    data={
-        'equipo':equipo
-    }
-    return render(request, 'pages/equipo.html',data)
+    if request.method == 'GET':
+        form = formEquipos(instance=equipo)
+        data={
+            'equipo':equipo,
+            'form': form,
+            'id': id
+        }
+        return render(request, 'pages/equipo.html',data)
+    
+    if request.method == 'POST':
+        form = formEquipos(request.POST, request.FILES, instance=equipo)
+        if form.is_valid():
+            form.save()
+        data={
+            'equipo':equipo,
+            'form': form,
+            'id': id
+        }   
+        return render(request, 'pages/equipo.html',data)
+# def mostrarEquipo(request, id):
+#     equipo = Equipos.objects.get(id=id)
+#     data={
+#         'equipo':equipo,
+#         'form': form,
+#     }
+#     return render(request, 'pages/equipo.html',data)
 
 # '''
 # Funcion Eliminar equipo

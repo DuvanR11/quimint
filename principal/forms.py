@@ -5,12 +5,12 @@ from django.core.validators import RegexValidator
 
 from .models import *
 class formEquipos(forms.ModelForm):
-    fecha = forms.DateField(
-        label='Fecha',
-        validators=[RegexValidator(r'^[DdMmYy]{6}$',
-        message="solo se permite fecha")],
-        required=True,
-        widget=forms.TextInput(attrs={'placeholder':'fecha'}))      
+    # fecha = forms.DateField(
+    #     label='Fecha',
+    #     validators=[RegexValidator(r'^[DdMmYy]{6}$',
+    #     message="solo se permite fecha")],
+    #     required=True,
+    #     widget=forms.TextInput(attrs={'placeholder':'fecha'}))      
                     
     repuesto = forms.CharField(
         label='Repuesto', min_length=3, max_length=30,
