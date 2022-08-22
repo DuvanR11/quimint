@@ -77,3 +77,65 @@ def mostrarEquipo(request, id):
 #         else:
 #             messages.warning(request, 'Error')
 #         return HTTPResponse(Request.POST)
+
+# CRUD de Suministros
+'''
+Funcion para agregar equipos y retorno de mensajes
+'''
+def agregarSuministros(request):
+    suministros = Suministros.objects.all()
+    form = formSuministros(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Por fin")
+        return HttpResponseRedirect('/')
+    else:
+        messages.error(request, "error")
+    data={
+        'form': form,
+        'suministros':suministros
+    }
+    return render(request, 'pages/suministros.html',data)
+
+
+# '''
+# Funcion Mostrar solo un equipo
+# '''
+def mostrarSuministros(request, id):
+    suministros = Suministros.objects.get(id=id)
+    data={
+        'suministros':suministros
+    }
+    return render(request, 'pages/suministros.html',data)
+
+
+# CRUD de Herramientas
+'''
+Funcion para agregar equipos y retorno de mensajes
+'''
+def agregarHerramientas(request):
+    herramientas = Herramientas.objects.all()
+    form = formHerramientas(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Por fin")
+        return HttpResponseRedirect('/')
+    else:
+        messages.error(request, "error")
+    data={
+        'form': form,
+        'herramientas':herramientas
+    }
+    return render(request, 'pages/herramientas.html',data)
+
+
+
+# '''
+# Funcion Mostrar solo un equipo
+# '''
+def mostrarHerramientas(request, id):
+    herramientas = Herramientas.objects.get(id=id)
+    data={
+        'herramientas':herramientas
+    }
+    return render(request, 'pages/herramientas.html',data)

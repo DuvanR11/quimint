@@ -3,14 +3,39 @@
 {%block header%}
      {%include 'components/header.html'%}
 {%endblock%}
-
-{%block contenido%}
 {% load crispy_forms_tags %}
+{%block contenido%}
     <div class="container mt-3" style="width: 80%; font-size: 14px">
-        <form action="" method="POST" enctype="multipart/form-data">
+        <h1 style="text-align:center;">EQUIPOS</h1>
+        <form action="" method="POST" enctype="multipart/form-data" autocomplete="off" novalidate>
             {% csrf_token %}
-            {{ form | crispy}}
-            <input type="submit" value="Submit">
+            <div class="row">
+                <div class="col-4">{{form.fecha|as_crispy_field}}</div>
+                <div class="col-4">{{form.entrada|as_crispy_field}}</div>
+                <div class="col-4">{{form.salida|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col-4">{{form.referencia|as_crispy_field}}</div>
+                <div class="col-4">{{form.ocupacionenArea|as_crispy_field}}</div>
+                <div class="col-4">{{form.especificaciones|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col-4">{{form.cantidad|as_crispy_field}}</div>
+                <div class="col-4">{{form.repuesto|as_crispy_field}}</div>
+                <div class="col-4">{{form.estado|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col-4">{{form.categoria|as_crispy_field}}</div>
+                <div class="col-4">{{form.marca|as_crispy_field}}</div>
+                <div class="col-4">{{form.imagenE|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col-6">{{form.valorU|as_crispy_field}}</div>
+                <div class="col-6">{{form.costo|as_crispy_field}}</div>
+            </div>
+            <div class="row justify-content-center">
+                <input type="submit" class="btn btn-primary col-6">
+            </div>
 
             {% for message in messages %}             
                 {% if message.tags == 'success' %}
@@ -22,7 +47,7 @@
         </form>
     </div>
     <hr>
-    <!-- Seccion de equipos -->
+    <h1 class="m-4" style="text-align:center;">TABLA DE EQUIPOS</h1>
     <div class="container mt-1">
         <table  id="tblEquipos" class="table table-striped" style="width:100%">
             <thead>
@@ -31,6 +56,7 @@
                     <th>repuesto</th>
                     <th>estado</th>
                     <th>cantidad</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +66,10 @@
                     <td>{{a.repuesto}}</td>
                     <td>{{a.estado}}</td>
                     <td>{{a.cantidad}}</td>
+                    <td>
+                        <button class="btn btn-warning"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    </td>
                   </tr>
                 {%endfor%}
             </tbody>

@@ -25,13 +25,26 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Vista Principal
     path('', views.principal, name='principal'),
+    
     # Equipos
     path('equipos/', views.agregarEquipos, name='equipos'),
     # path('todos/', views.mostrarEquipos),
     path('equipo/<int:id>', views.mostrarEquipo, name='equipo'),
     # path('actualizar/', views.actualizarEquipo),
-]
+    
+    
+    path('suministros/', views.agregarSuministros, name='suministros'),
+    # path('todos/', views.mostrarEquipos),
+    path('suministro/<int:id>', views.mostrarSuministros, name='suministro'),
+    # path('actualizar/', views.actualizarEquipo),
+    
+    
+    path('herramientas/', views.agregarHerramientas, name='herramientas'),
+    # path('todos/', views.mostrarEquipos),
+    path('herramienta/<int:id>', views.mostrarHerramientas, name='herramientas'),
+    # path('actualizar/', views.actualizarEquipo),
 
+]
 if settings.DEBUG:
   urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
   
