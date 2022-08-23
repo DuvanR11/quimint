@@ -8,6 +8,8 @@ from principal.models import Equipos
 from .forms import *
 from django.contrib.messages import constants as messages
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 
 # Create your views here.
 
@@ -22,17 +24,20 @@ Funcion para agregar equipos y retorno de mensajes
 '''
 def agregarEquipos(request):
     equipos = Equipos.objects.all()
-    form = formEquipos(request.POST, request.FILES)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Por fin")
-        return HttpResponseRedirect('/')
-    else:
-        messages.error(request, "error")
+    if request.method == 'POST':
+        form = formEquipos(request.POST, request.FILES or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Por fin")
+            return HttpResponseRedirect('/')
+        else:
+            return render(request, 'pages/equipos.html', {'form': form })
+    else: 
+        form = formEquipos()
     data={
-        'form': form,
-        'equipos':equipos
-    }
+            'form': form,
+            'equipos':equipos
+        }
     return render(request, 'pages/equipos.html',data)
 
 
@@ -60,28 +65,17 @@ def mostrarEquipo(request, id):
             'id': id
         }   
         return render(request, 'pages/equipo.html',data)
-# def mostrarEquipo(request, id):
-#     equipo = Equipos.objects.get(id=id)
-#     data={
-#         'equipo':equipo,
-#         'form': form,
-#     }
-#     return render(request, 'pages/equipo.html',data)
 
-# '''
-# Funcion Eliminar equipo
-# '''
-# def eliminarEquipo(request, id):
-#     equipos = Equipos.objects.get(id=id)
-#     equipos.delete()
-#     data={
-#         'equipos':equipos
-#     }
-#     return render(request, 'pages/equipo.html',data)
 
-# '''
-# Funcion Eliminar equipo
-# '''
+'''
+Funcion Eliminar equipo
+'''
+def eliminarEquipo(request, id):
+    equipos = Equipos.objects.get(id=id)
+    equipos.delete()
+    return redirect('equipos')
+
+
 # def actualizarEquipo(request, id):
 #     equipo = Equipos.objects.get(id=id)
 #     if request.method == 'GET':
@@ -107,13 +101,16 @@ Funcion para agregar equipos y retorno de mensajes
 '''
 def agregarSuministros(request):
     suministros = Suministros.objects.all()
-    form = formSuministros(request.POST, request.FILES)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Por fin")
-        return HttpResponseRedirect('/')
+    if request.method == 'POST':
+        form = formSuministros(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Por fin")
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request, "error")
     else:
-        messages.error(request, "error")
+        form = formSuministros()    
     data={
         'form': form,
         'suministros':suministros
@@ -138,13 +135,16 @@ Funcion para agregar equipos y retorno de mensajes
 '''
 def agregarHerramientas(request):
     herramientas = Herramientas.objects.all()
-    form = formHerramientas(request.POST, request.FILES)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Por fin")
-        return HttpResponseRedirect('/')
+    if request.method == 'POST':
+        form = formHerramientas(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Por fin")
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request, "error")
     else:
-        messages.error(request, "error")
+        form = formHerramientas()
     data={
         'form': form,
         'herramientas':herramientas
@@ -157,8 +157,23 @@ def agregarHerramientas(request):
 # Funcion Mostrar solo un equipo
 # '''
 def mostrarHerramientas(request, id):
-    herramientas = Herramientas.objects.get(id=id)
-    data={
-        'herramientas':herramientas
-    }
-    return render(request, 'pages/herramientas.html',data)
+    herramienta = Herramientas.objects.get(id=id)
+    if request.method == 'GET':
+        form = formHerramientas(instance=herramienta)
+        data={
+            'herramienta':herramienta,
+            'form': form,
+            'id': id
+        }
+        return render(request, 'pages/herramienta.html',data)
+    
+    if request.method == 'POST':
+        form = formHerramientas(request.POST, request.FILES, instance=herramienta)
+        if form.is_valid():
+            form.save()
+        data={
+            'herramienta':herramienta,
+            'form': form,
+            'id': id
+        }   
+        return render(request, 'pages/herramienta.html',data)

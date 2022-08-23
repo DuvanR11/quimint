@@ -4,10 +4,12 @@
      {%include 'components/header.html'%}
 {%endblock%}
 
+{% load crispy_forms_tags %}
+
 {%block contenido%}
   <div class="container">
     <div class="equipo">
-        <h1 style="text-align:center;">HERRAMIENTA</h1>
+        <h1 style="text-align:center;">HERRAMIENTAS</h1>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -15,21 +17,89 @@
                     <th>repuesto</th>
                     <th>estado</th>
                     <th>cantidad</th>
+                    <th>Salidas</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{equipo.repuesto}}</td>
-                    <td>{{equipo.repuesto}}</td>
-                    <td>{{equipo.estado}}</td>
-                    <td>{{equipo.cantidad}}</td>
+                    <td>{{herramienta.repuesto}}</td>
+                    <td>{{herramienta.repuesto}}</td>
+                    <td>{{herramienta.estado}}</td>
+                    <td>{{herramienta.cantidad}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#entradas">
+                            Entradas
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salidas">
+                            Salidas
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="entradas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Entradas de Equipos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-4">{{form.entrada|as_crispy_field}}</div>
+                    <div class="col-4">{{form.valorU|as_crispy_field}}</div>
+                    <div class="col-4">{{form.costo|as_crispy_field}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-12">{{form.especificaciones|as_crispy_field}}</div>
+                </div>
+                <div class="row justify-content-center">
+                    <input type="submit" class="btn btn-primary col-6">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal fade" id="salidas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Salida de Equipos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              
+              <form method="post" enctype="multipart/form-data" autocomplete="off" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">{{form.salida|as_crispy_field}}</div>
+                    <div class="col-6">{{form.ocupacionenArea|as_crispy_field}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-12">{{form.especificaciones|as_crispy_field}}</div>
+                </div>
+                <div class="row justify-content-center">
+                    <input type="submit" class="btn btn-primary col-6">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <br>
     <div class="historico">
         <h1 style="text-align:center;">HISTORICO</h1>
-        <table class="table table-hover">
+        <table id="tblEquipos" class="table table-hover" style="width:100%">
             <thead>
                 <tr>
                     <th>repuesto</th>
@@ -40,10 +110,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{equipo.repuesto}}</td>
-                    <td>{{equipo.repuesto}}</td>
-                    <td>{{equipo.estado}}</td>
-                    <td>{{equipo.cantidad}}</td>
+                    <td>{{herramienta.repuesto}}</td>
+                    <td>{{herramienta.repuesto}}</td>
+                    <td>{{herramienta.estado}}</td>
+                    <td>{{herramienta.cantidad}}</td>
                 </tr>
             </tbody>
         </table>

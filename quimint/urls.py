@@ -30,7 +30,7 @@ urlpatterns = [
     path('equipos/', views.agregarEquipos, name='equipos'),
     # path('todos/', views.mostrarEquipos),
     path('equipo/<int:id>', views.mostrarEquipo, name='equipo'),
-    # path('actualizar/', views.actualizarEquipo),
+    path('eliminar/<int:id>', views.eliminarEquipo, name='eliminar'),
     
     
     path('suministros/', views.agregarSuministros, name='suministros'),
@@ -41,7 +41,7 @@ urlpatterns = [
     
     path('herramientas/', views.agregarHerramientas, name='herramientas'),
     # path('todos/', views.mostrarEquipos),
-    path('herramienta/<int:id>', views.mostrarHerramientas, name='herramientas'),
+    path('herramienta/<int:id>', views.mostrarHerramientas, name='herramienta'),
     # path('actualizar/', views.actualizarEquipo),
 
 ]

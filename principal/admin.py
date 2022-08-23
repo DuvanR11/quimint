@@ -1,10 +1,34 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 # Register your models here.
 class categoriasAdmin(admin.ModelAdmin):
-    pass
+    pass    
 class equiposAdmin(admin.ModelAdmin):
-    pass
-
+    list_filter = ['estado']
+    list_display = ['fecha', 'repuesto', 'referencia', 'estados', '_', 'cantidad', 'entrada', 'salida', 'ocupacionenArea', 'especificaciones', 'imagenE', 'categoria', 'marca', 'valorU', 'costo']
+    search_fields = ['fecha', 'repuesto', 'referencia', 'estado', 'cantidad', 'entrada', 'salida', 'ocupacionenArea', 'especificaciones', 'imagenE', 'categoria', 'marca', 'valorU', 'costo']
+    list_per_page: 12
+    
+    # Funcion para estados
+    def _(self, obj):
+        if obj.estado == 'Disponible':
+            return True
+        elif obj.estado == 'Pocas':
+            return None
+        else: 
+            return False
+    _.boolean = True
+    
+    def estados(self, obj):
+        if obj.estado == 'Disponible':
+            color = '#28a745'
+        elif obj.estado == 'Pocas':
+            color = '#fea95e'
+        else: 
+            color = 'red'
+        return format_html('<strong><p style = "color:{}">{}</p></strong'.format(color, obj.estado))
+    estados.allow_tags = True
+        
 admin.site.register(Categorias, categoriasAdmin)
 admin.site.register(Equipos, equiposAdmin)
